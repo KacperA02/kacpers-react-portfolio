@@ -6,7 +6,7 @@ const Certificates = () => {
       <h1 className="text-4xl font-bold mb-6  flex justify-center">CV</h1>
       <iframe
         title="CV"
-        src="../certificates/cv.pdf"
+        src="../certificates/KacperCV1.pdf"
         width="100%"
         height="500px"
       ></iframe>

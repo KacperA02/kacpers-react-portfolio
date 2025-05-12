@@ -191,5 +191,28 @@
           "TensorFlow"
         ],
         "github": "https://github.com/IADT-CC-Y4-AI2/deep-learning-with-tensorflow-and-or-gemini-api-N00212272/blob/main/TextClassifcationMovieReviews.ipynb"
+      },
+      {
+        "title": "RosterReady",
+        "description": "RosterReady was created to simplify and automate conflict-free schedules tailored to business needs. The applications core functionally implemented Constraint Satisfaction Problem (CSP) solver to create solutions based on the business' shifts, employees and rules. These rules included skill based shifts, and availability of employees which could be requested and accepted by the employer in real-time. Other rules were applied to satisfy employment laws in Ireland, including gaps between shifts and maximum working hours per week.",
+        "images": [
+          {
+            "caption": "Screenshot of APP",
+            "path": "../images/rosterReady.PNG"
+          }
+        ],
+        "date": "2025",
+        "tags": [
+          "Python",
+          "Constraint Satisfaction Problem Solver",
+          "API",
+          "FastAPI",
+          "WebSockets",
+          "MySQL",
+          "React",
+          "Javascript",
+          "ShadCN"
+        ],
+        "github": "https://github.com/KacperA02/rosterready1"
       }
 ]
