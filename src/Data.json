@@ -198,13 +198,12 @@
         "images": [
           {
             "caption": "Screenshot of APP",
-            "path": "../images/rosterReady.PNG"
+            "path": "../images/rosterReady.JPG"
           }
         ],
         "date": "2025",
         "tags": [
           "Python",
-          "Constraint Satisfaction Problem Solver",
           "API",
           "FastAPI",
           "WebSockets",
@@ -213,6 +212,7 @@
           "Javascript",
           "ShadCN"
         ],
+        "website": "https://rosterready1.vercel.app/",
         "github": "https://github.com/KacperA02/rosterready1"
       }
 ]

@@ -92,10 +92,7 @@ const applySort = (data, criteria, order) => {
     'Python',
     'React-native',
     'Expo',
-    'TensorFlow',
-    "FastAPI",
-    "WebSockets",
-    "ShadCN"
+    'TensorFlow'
   ];
 
   // Render the component
