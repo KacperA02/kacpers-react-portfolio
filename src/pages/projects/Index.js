@@ -2,45 +2,34 @@ import { useState, useEffect } from 'react';
 import ProjectHero from '../../components/ProjectHero';
 import axios from 'axios';
 
-
-
 const Index = ({ term }) => {
-  // State for storing all projects
   const [projects, setProjects] = useState([]);
-  // State for storing projects after search/filter
   const [searchProjects, setSearchProjects] = useState([]);
-  // State for sorting order (asc or desc)
   const [sortOrder, setSortOrder] = useState('desc');
-  // State for selected tag filter
   const [selectedTag, setSelectedTag] = useState(null);
 
-  // Function to sort data based on criteria and order
-const applySort = (data, criteria, order) => {
-  const sortedData = [...data];
-  sortedData.sort((a, b) => {
-    const aValue = a[criteria];
-    const bValue = b[criteria];
-    return order === 'asc' ? aValue - bValue : bValue - aValue;
-  });
-  return sortedData;
-};
+  const applySort = (data, criteria, order) => {
+    const sortedData = [...data];
+    sortedData.sort((a, b) => {
+      const aValue = a[criteria];
+      const bValue = b[criteria];
+      return order === 'asc' ? aValue - bValue : bValue - aValue;
+    });
+    return sortedData;
+  };
 
-  // Fetch projects from the API and apply sorting and filtering
   useEffect(() => {
     axios
       .get('https://portfolio-react-92097-default-rtdb.europe-west1.firebasedatabase.app/.json')
       .then((response) => {
-        // Apply sorting based on criteria and order
         let filteredProjects = applySort(response.data, "date", sortOrder);
 
-        // Apply tag filter if a tag is selected
         if (selectedTag) {
           filteredProjects = filteredProjects.filter((project) =>
             project.tags.includes(selectedTag)
           );
         }
 
-        // Update projects state
         setProjects(filteredProjects);
       })
       .catch((err) => {
@@ -48,93 +37,70 @@ const applySort = (data, criteria, order) => {
       });
   }, [sortOrder, selectedTag]);
 
-  // Apply search/filtering based on the search term, sorting, and selected tag
   useEffect(() => {
     if (term.length <= 2) {
-      // If search term is less than or equal to 2 characters, show all projects
       setSearchProjects(projects);
     } else {
-      // If search term is longer, filter projects by title
-      let projectsFilter = projects.filter((project) =>
+      const projectsFilter = projects.filter((project) =>
         project.title.toLowerCase().includes(term.toLowerCase())
       );
-
-      // Reset selected tag when search term is being typed
       setSelectedTag(null);
       setSearchProjects(projectsFilter);
     }
-  }, [projects, term, sortOrder, selectedTag]);
+  }, [projects, term]);
 
-  // If projects are not loaded, show loading message
   if (!projects) return 'loading ...';
 
-  // Map through filtered projects and render ProjectHero component for each
   const projectsList = searchProjects.map((project, i) => (
     <ProjectHero key={i} project={project} />
   ));
 
-  // Options for tags dropdown
   const tagOptions = [
-    'Javascript',
-    'React',
-    'HTML',
-    'Front-End',
-    'Rest-Client',
-    'API',
-    'PHP',
-    'Laravel',
-    'Web-devlopment',
-    'CSS',
-    'Data-visualisation',
-    'SASS',
-    'OOP',
-    'Back-end',
-    'Python',
-    'React-native',
-    'Expo',
-    'TensorFlow'
+    'Javascript', 'React', 'HTML', 'Front-End', 'Rest-Client', 'API',
+    'PHP', 'Laravel', 'Web-devlopment', 'CSS', 'Data-visualisation',
+    'SASS', 'OOP', 'Back-end', 'Python', 'React-native', 'Expo', 'TensorFlow'
   ];
 
-  // Render the component
   return (
     <>
-      {/* Sort and tag filter controls */}
-      <div className="flex justify-end items-center mt-5 ">
-        <label htmlFor="sortOrder">
-          <b>Sort Order: </b>
-        </label>
-        <select
-          id="sortOrder"
-          onChange={(e) => setSortOrder(e.target.value)}
-        >
-          <option value="desc">
-            <b>Most recent</b>
-          </option>
-          <option value="asc">
-            <b>Oldest</b>
-          </option>
-        </select>
+      {/* Responsive Filter Controls */}
+      <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4 mt-8 mb-6 bg-slate-100 dark:bg-slate-800 p-4 rounded-xl shadow-md">
+        {/* Sort Order */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+          <label htmlFor="sortOrder" className="font-semibold text-slate-700 dark:text-slate-200">
+            Sort Order:
+          </label>
+          <select
+            id="sortOrder"
+            onChange={(e) => setSortOrder(e.target.value)}
+            className="px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          >
+            <option value="desc">Most recent</option>
+            <option value="asc">Oldest</option>
+          </select>
+        </div>
 
-        {/* Dropdown for selecting tags */}
-        <label htmlFor="tagFilter" className="ml-4">
-          <b>Select Tag: </b>
-        </label>
-        <select
-          id="tagFilter"
-          onChange={(e) => setSelectedTag(e.target.value)}
-          value={selectedTag || ''}
-        >
-          <option value="">All Tags</option>
-          {tagOptions.map((tag, index) => (
-            <option key={index} value={tag}>
-              {tag}
-            </option>
-          ))}
-        </select>
+        {/* Tag Filter */}
+        <div className="flex flex-col sm:flex-row items-start sm:items-center gap-2">
+          <label htmlFor="tagFilter" className="font-semibold text-slate-700 dark:text-slate-200">
+            Filter by Tag:
+          </label>
+          <select
+            id="tagFilter"
+            onChange={(e) => setSelectedTag(e.target.value)}
+            value={selectedTag || ''}
+            className="px-3 py-2 rounded-md border border-slate-300 dark:border-slate-600 bg-white dark:bg-slate-700 text-slate-800 dark:text-white focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          >
+            <option value="">All Tags</option>
+            {tagOptions.map((tag, index) => (
+              <option key={index} value={tag}>{tag}</option>
+            ))}
+          </select>
+        </div>
       </div>
-      
-      {/* Render the filtered projects */}
-      <div className="mb-4">{projectsList}</div>
+
+      {/* Projects */}
+      <div className="grid gap-6">{projectsList}</div>
     </>
   );
 };
